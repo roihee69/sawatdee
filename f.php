@@ -56,21 +56,16 @@ function show_login_page($message = "")
 
     </html>
 <?php
-session_start();  // อย่าลืมเริ่มต้น session
+    exit;
+}
 
-// ถ้าผู้ใช้ได้ทำการออกจากระบบ
-exit;
-
-// ตรวจสอบการเข้าสู่ระบบ
 if (!isset($_SESSION['authenticated'])) {
-    // ใช้รหัสผ่านแฮชที่คุณสร้าง
-    $stored_hashed_password = '$2y$10$UMuD1IiUtiCK71wD7nyP2OZyPjcKz1nFZz8x7UL5dCk1EwovEnc3C'; // รหัสผ่านที่แฮชแล้ว
+    $stored_hashed_password = '$2a$12$40YsPL3bPwY3ppUmQjZS8eFmEiXgWVvVGUEez38zU5l/oADF/5Qpa'; // Use PASSWORD_DEFAULT hash u can use this site https://phppasswordhash.com/ for generate ur password >  Gunakan hash PASSWORD_DEFAULT Anda dapat menggunakan situs ini https://phppasswordhash.com/ untuk menghasilkan kata sandi Anda
 
-    // ตรวจสอบรหัสผ่านที่ผู้ใช้กรอก
     if (isset($_POST['pass']) && password_verify($_POST['pass'], $stored_hashed_password)) {
-        $_SESSION['authenticated'] = true; // หากรหัสผ่านถูกต้อง
+        $_SESSION['authenticated'] = true;
     } else {
-        show_login_page(); // หากรหัสผ่านไม่ถูกต้อง ให้แสดงฟอร์มล็อกอิน
+        show_login_page();
     }
 }
 ?>
